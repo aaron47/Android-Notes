@@ -43,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
             EditText etTodo = findViewById(R.id.etNote);
             String title = etTodo.getText().toString();
 
+            if (title.isEmpty()) {
+                Toast.makeText(this, "Veuillez entrer votre note", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Note note = new Note(title);
 
             notes.add(note);

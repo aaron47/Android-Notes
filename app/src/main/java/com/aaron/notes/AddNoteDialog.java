@@ -38,6 +38,7 @@ public class AddNoteDialog extends AppCompatDialog {
 
             if (noteTitle.isEmpty()) {
                 Toast.makeText(this.getContext(), "Veuillez entrer votre note", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             Note note = new Note(noteTitle);
