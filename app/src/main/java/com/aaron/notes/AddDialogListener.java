@@ -1,7 +1,7 @@
 package com.aaron.notes;
 
-import com.aaron.notes.entities.Note;
+import com.aaron.notes.entities.Recipe;
 
 public interface AddDialogListener {
-    void onAddButtonClicked(Note note);
+    void onAddButtonClicked(Recipe recipe);
 }

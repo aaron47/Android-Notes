@@ -15,45 +15,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aaron.notes.entities.Note;
+import com.aaron.notes.entities.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final List<Note> notes = new ArrayList<>();
+    private final List<Recipe> recipes = new ArrayList<>();
+    private final List<Recipe> dummyRecipes = Recipe.getDummyRecipes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        notes.add(new Note(":DDDDDDDDD"));
-        notes.add(new Note("second note hahahaha", true));
-        notes.add(new Note("third note XDDDDDD", true));
-
-        NoteAdapter noteAdapter = new NoteAdapter(notes);
+        RecipeAdapter recipeAdapter = new RecipeAdapter(dummyRecipes);
         RecyclerView rvTodos = findViewById(R.id.rvNotes);
-        rvTodos.setAdapter(noteAdapter);
+        rvTodos.setAdapter(recipeAdapter);
         rvTodos.setLayoutManager(new LinearLayoutManager(this));
-
-        Button btnAdd = findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(v -> {
-            EditText etTodo = findViewById(R.id.etNote);
-            String title = etTodo.getText().toString();
-
-            if (title.isEmpty()) {
-                Toast.makeText(this, "Veuillez entrer votre note", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Note note = new Note(title);
-
-            notes.add(note);
-            noteAdapter.notifyItemInserted(notes.size() - 1);
-        });
-
     }
 
     @Override
@@ -70,21 +50,21 @@ public class MainActivity extends AppCompatActivity {
         TextView badgeCount = favouriteItem.getActionView().findViewById(R.id.tvFavourites);
 
         // Update the badge count here with the actual count of items
-        int itemCount = this.notes.size()/* Calculate the count of items */;
+        int itemCount = this.recipes.size()/* Calculate the count of items */;
         badgeCount.setText(String.valueOf(itemCount));
 
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.miAddItem) {
-            AddNoteDialog addNoteDialog = new AddNoteDialog(this, note -> {
-                this.notes.add(note);
+            AddRecipeDialog addRecipeDialog = new AddRecipeDialog(this, recipe -> {
+                this.recipes.add(recipe);
                 Toast.makeText(this, "Vous avez ajoute une note avec success", Toast.LENGTH_SHORT).show();
             });
 
-            addNoteDialog.show();
+            addRecipeDialog.show();
         }
 
         return true;

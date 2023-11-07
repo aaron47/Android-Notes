@@ -9,9 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
-import com.aaron.notes.entities.Note;
-
-public class AddNoteDialog extends AppCompatDialog {
+public class AddRecipeDialog extends AppCompatDialog {
 
     private TextView tvAdd;
     private TextView tvCancel;
@@ -19,7 +17,7 @@ public class AddNoteDialog extends AppCompatDialog {
 
     private final AddDialogListener addDialogListener;
 
-    public AddNoteDialog(@NonNull Context context, AddDialogListener addDialogListener) {
+    public AddRecipeDialog(@NonNull Context context, AddDialogListener addDialogListener) {
         super(context);
         this.addDialogListener = addDialogListener;
     }
@@ -41,8 +39,8 @@ public class AddNoteDialog extends AppCompatDialog {
                 return;
             }
 
-            Note note = new Note(noteTitle);
-            this.addDialogListener.onAddButtonClicked(note);
+//            Recipe recipe = new Recipe(noteTitle);
+//            this.addDialogListener.onAddButtonClicked(recipe);
             this.dismiss();
         });
 
