@@ -46,7 +46,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
             Bundle bundle = new Bundle();
             bundle.putString("RECIPE_TITLE", recipe.getTitle());
-            bundle.putStringArrayList("RECIPE_INGREDIENTS", (ArrayList<String>) recipe.getIngredients());
+            bundle.putStringArrayList("RECIPE_INGREDIENTS", new ArrayList<>(recipe.getIngredients()));
             bundle.putString("RECIPE_INSTRUCTIONS", recipe.getInstructions());
 
 

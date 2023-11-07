@@ -22,15 +22,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final List<Recipe> recipes = new ArrayList<>();
-    private final List<Recipe> dummyRecipes = Recipe.getDummyRecipes();
+    private final List<Recipe> recipes = Recipe.getDummyRecipes();
+
+    private RecipeAdapter recipeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecipeAdapter recipeAdapter = new RecipeAdapter(dummyRecipes);
+        this.recipeAdapter = new RecipeAdapter(recipes);
         RecyclerView rvTodos = findViewById(R.id.rvNotes);
         rvTodos.setAdapter(recipeAdapter);
         rvTodos.setLayoutManager(new LinearLayoutManager(this));
@@ -60,8 +61,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.miAddItem) {
             AddRecipeDialog addRecipeDialog = new AddRecipeDialog(this, recipe -> {
+                System.out.println("RECIPE: " + recipe.toString());
                 this.recipes.add(recipe);
-                Toast.makeText(this, "Vous avez ajoute une note avec success", Toast.LENGTH_SHORT).show();
+                this.recipeAdapter.notifyItemInserted(this.recipes.size() - 1);
+                Toast.makeText(this, "You have successfully added your recipe", Toast.LENGTH_SHORT).show();
             });
 
             addRecipeDialog.show();

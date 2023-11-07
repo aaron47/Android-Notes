@@ -9,11 +9,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
+import com.aaron.notes.entities.Recipe;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class AddRecipeDialog extends AppCompatDialog {
 
     private TextView tvAdd;
     private TextView tvCancel;
-    private EditText etNote;
+    private EditText etRecipeTitle;
+    private EditText etRecipeIngredients;
+    private EditText etRecipeInstructions;
 
     private final AddDialogListener addDialogListener;
 
@@ -25,22 +32,37 @@ public class AddRecipeDialog extends AppCompatDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_add_note);
+        setContentView(R.layout.dialog_add_recipe);
 
         this.tvAdd = findViewById(R.id.tvAdd);
         this.tvCancel = findViewById(R.id.tvCancel);
-        this.etNote = findViewById(R.id.etNote);
+        this.etRecipeTitle = findViewById(R.id.etRecipeTitle);
+        this.etRecipeIngredients = findViewById(R.id.etRecipeIngredients);
+        this.etRecipeInstructions = findViewById(R.id.etRecipeIntructions);
+
 
         this.tvAdd.setOnClickListener(v -> {
-            String noteTitle = this.etNote.getText().toString();
+            String recipeTitle = this.etRecipeTitle.getText().toString();
+            List<String> recipeIngredients = Arrays.asList(this.etRecipeIngredients.getText().toString().split("\\s+"));
+            String recipeInstructions = this.etRecipeInstructions.getText().toString();
 
-            if (noteTitle.isEmpty()) {
-                Toast.makeText(this.getContext(), "Veuillez entrer votre note", Toast.LENGTH_SHORT).show();
+            if (recipeTitle.isEmpty()) {
+                Toast.makeText(this.getContext(), "Please enter your recipe's name", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-//            Recipe recipe = new Recipe(noteTitle);
-//            this.addDialogListener.onAddButtonClicked(recipe);
+            if (recipeIngredients.isEmpty()) {
+                Toast.makeText(this.getContext(), "Please enter your recipe's ingredients", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (recipeInstructions.isEmpty()) {
+                Toast.makeText(this.getContext(), "Please enter your recipe's instructions", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Recipe recipe = new Recipe(recipeTitle, recipeIngredients, recipeInstructions);
+            this.addDialogListener.onAddButtonClicked(recipe);
             this.dismiss();
         });
 
