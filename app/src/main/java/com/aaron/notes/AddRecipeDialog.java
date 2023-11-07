@@ -43,6 +43,7 @@ public class AddRecipeDialog extends AppCompatDialog {
 
         this.tvAdd.setOnClickListener(v -> {
             String recipeTitle = this.etRecipeTitle.getText().toString();
+            String recipeIngredientsTextUntrimmed = this.etRecipeIngredients.getText().toString();
             List<String> recipeIngredients = Arrays.asList(this.etRecipeIngredients.getText().toString().split("\\s+"));
             String recipeInstructions = this.etRecipeInstructions.getText().toString();
 
@@ -51,7 +52,7 @@ public class AddRecipeDialog extends AppCompatDialog {
                 return;
             }
 
-            if (recipeIngredients.isEmpty()) {
+            if (recipeIngredientsTextUntrimmed.isEmpty()) {
                 Toast.makeText(this.getContext(), "Please enter your recipe's ingredients", Toast.LENGTH_SHORT).show();
                 return;
             }
