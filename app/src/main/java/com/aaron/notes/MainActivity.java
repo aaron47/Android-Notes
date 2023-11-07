@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.recipeAdapter = new RecipeAdapter(recipes);
-        RecyclerView rvTodos = findViewById(R.id.rvNotes);
+        RecyclerView rvTodos = findViewById(R.id.rvRecipes);
         rvTodos.setAdapter(recipeAdapter);
         rvTodos.setLayoutManager(new LinearLayoutManager(this));
     }
