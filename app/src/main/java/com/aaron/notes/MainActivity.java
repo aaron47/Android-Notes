@@ -10,26 +10,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aaron.notes.db.DbHelper;
 import com.aaron.notes.entities.Recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final List<Recipe> recipes = Recipe.getDummyRecipes();
+    private List<Recipe> recipes = Recipe.getDummyRecipes();
 
     private RecipeAdapter recipeAdapter;
+    private DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHelper = new DbHelper(this);
+        recipes = dbHelper.getAllRecipes();
 
         this.recipeAdapter = new RecipeAdapter(recipes);
         RecyclerView rvTodos = findViewById(R.id.rvRecipes);
@@ -42,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_bar_menu, menu);
 
-        MenuItem favouriteItem = menu.findItem(R.id.miFavourite);
+//        MenuItem favouriteItem = menu.findItem(R.id.miFavourite);
 
         // Set a custom action view for the miFavourite menu item
-        favouriteItem.setActionView(R.layout.badge_layout);
+//        favouriteItem.setActionView(R.layout.badge_layout);
 
         // Initialize the badge TextView
-        TextView badgeCount = favouriteItem.getActionView().findViewById(R.id.tvFavourites);
+//        TextView badgeCount = favouriteItem.getActionView().findViewById(R.id.tvFavourites);
 
         // Update the badge count here with the actual count of items
-        int itemCount = this.recipes.size()/* Calculate the count of items */;
-        badgeCount.setText(String.valueOf(itemCount));
+//        int itemCount = this.recipes.size()/* Calculate the count of items */;
+//        badgeCount.setText(String.valueOf(itemCount));
 
         return true;
     }
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             AddRecipeDialog addRecipeDialog = new AddRecipeDialog(this, recipe -> {
                 System.out.println("RECIPE: " + recipe.toString());
                 this.recipes.add(recipe);
+                dbHelper.addRecipe(recipe);
                 this.recipeAdapter.notifyItemInserted(this.recipes.size() - 1);
                 Toast.makeText(this, "You have successfully added your recipe", Toast.LENGTH_SHORT).show();
             });

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aaron.notes.db.DbHelper;
 import com.aaron.notes.entities.Recipe;
 
 import java.util.ArrayList;
@@ -39,6 +40,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         CheckBox cbChecked = holder.itemView.findViewById(R.id.cbChecked);
         tvTitle.setText(recipe.getTitle());
         cbChecked.setChecked(recipe.isFavourite());
+
+        cbChecked.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            DbHelper dbHelper = new DbHelper(buttonView.getContext());
+            dbHelper.updateRecipeFavouriteStatus(recipe.getTitle(), isChecked);
+        });
 
         holder.itemView.setOnClickListener(v -> {
             Intent recipeDetailIntent = new Intent(v.getContext(), RecipeDetailActivity.class);
